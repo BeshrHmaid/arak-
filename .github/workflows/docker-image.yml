@@ -1,0 +1,25 @@
+name: Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      run: |
+        docker build -t arakplus:latest .
+
+    - name: Deploy to InfinityFree
+      run: |
+        curl -T ./build/index.html ftp://ftpupload.net --user if0_38733136:eJdCkFwa7oev0d
